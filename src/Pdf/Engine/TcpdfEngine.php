@@ -13,7 +13,13 @@ class TcpdfEngine extends AbstractPdfEngine
      */
     public function output()
     {
-        $TCPDF = new TCPDF($this->_Pdf->orientation(), 'mm', $this->_Pdf->pageSize());
+        $clazz = $this->_Pdf->classOverride();
+        if (null !== $clazz) {
+            $TCPDF = new $clazz($this->_Pdf->orientation(), 'mm', $this->_Pdf->pageSize());
+        } else {
+            $TCPDF = new TCPDF($this->_Pdf->orientation(), 'mm', $this->_Pdf->pageSize());
+        }
+
         $TCPDF->AddPage();
         $TCPDF->writeHTML($this->_Pdf->html());
 

@@ -228,6 +228,13 @@ class CakePdf
     ];
 
     /**
+     * PDF class override
+     *
+     * @var string
+     */
+    protected $_classOverride = null;
+
+    /**
      * Constructor
      *
      * @param array $config Pdf configs to use
@@ -259,6 +266,7 @@ class CakePdf
             'cache',
             'delay',
             'windowStatus',
+            'classOverride',
         ];
         foreach ($options as $option) {
             if (isset($config[$option])) {
@@ -961,5 +969,24 @@ class CakePdf
         );
 
         return $View->render();
+    }
+
+    /**
+     * PDF class override
+     *
+     * @param string $classOverride
+     * @return mixed
+     */
+    public function classOverride($classOverride = null)
+    {
+        if (null === $classOverride) {
+            return $this->_classOverride;
+        }
+
+        if (class_exists($classOverride)) {
+            $this->_classOverride = $classOverride;
+        }
+
+        return $this;
     }
 }
